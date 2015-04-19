@@ -1,0 +1,5 @@
+/home/viper/AndroidstudioProjects/ClientApp/app/build/intermediates/classes/debug
+/home/viper/AndroidstudioProjects/ClientApp/app/build/intermediates/pre-dexed/debug/support-annotations-21.0.2-56052ab5d79d23172bf4b0bc2ab5748891300c0a.jar
+/home/viper/AndroidstudioProjects/ClientApp/app/build/intermediates/pre-dexed/debug/internal_impl-21.0.2-27fcf7dd2dd360c38cbdccd1359accf9e2b08b90.jar
+/home/viper/AndroidstudioProjects/ClientApp/app/build/intermediates/pre-dexed/debug/classes-61fd4227d996e93975b486c79f5442501c285caf.jar
+/home/viper/AndroidstudioProjects/ClientApp/app/build/intermediates/pre-dexed/debug/classes-c78fb701d4b068b3422b57b409061feaf43bad5d.jar
