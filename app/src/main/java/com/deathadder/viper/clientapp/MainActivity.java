@@ -1,10 +1,14 @@
 package com.deathadder.viper.clientapp;
 
+import android.content.Intent;
+import android.graphics.Point;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -15,114 +19,83 @@ import java.io.OutputStream;
 import java.net.Socket;
 
 
-public class MainActivity extends ActionBarActivity implements View.OnClickListener{   //Client
-
-    private boolean connectionFlag = false;
-    private Socket socket;
+public class MainActivity extends ActionBarActivity implements View.OnClickListener {   //Client
     Button connect;
     TextView ip, port;
-    OutputStream outputStream;
+    static Connection connection;
     int array[];
 
     @Override
-    protected void onCreate(Bundle savedInstanceState){
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         connect = (Button) findViewById(R.id.connect);
 
+        /*
         Button up = (Button) findViewById(R.id.up);
         Button down = (Button) findViewById(R.id.down);
         Button left = (Button) findViewById(R.id.left);
         Button right = (Button) findViewById(R.id.right);
 
-        connect.setOnClickListener(this);
         up.setOnClickListener(this);
         down.setOnClickListener(this);
         left.setOnClickListener(this);
         right.setOnClickListener(this);
 
+        */
+
+        connect.setOnClickListener(this);
+
         ip = (TextView) findViewById(R.id.ip);
         port = (TextView) findViewById(R.id.port);
 
         array = new int[100];
-
     }
 
-    public void connectToServer(){
+    public void connectToServer() {
         int portNumber = 0;
         String address = ip.getText().toString();
         try {
             portNumber = Integer.parseInt(port.getText().toString());
+        } catch (NumberFormatException e) {
+            Toast.makeText(this, "Enter valid address 1", Toast.LENGTH_LONG).show();
+            return;
         }
-        catch (NumberFormatException e){
-            //Toast.makeText(this,"Enter valid address 1", Toast.LENGTH_LONG).show();
-            connectionFlag = false;
+        if (address.isEmpty() || portNumber < 1024) {
+            Toast.makeText(this, "Enter valid address 2", Toast.LENGTH_LONG).show();
+            return;
         }
-        if(address.isEmpty() || portNumber <1024 ){
-            //Toast.makeText(this,"Enter valid address 2", Toast.LENGTH_LONG).show();
-            connectionFlag = false;
-        }
+        if(connection == null)
+            connection = new Connection(address, portNumber);
 
-        Socket attempToConnect = null;
-        try {
-            attempToConnect = new Socket(address,portNumber);
-            this.socket = attempToConnect;
-            this.outputStream = socket.getOutputStream();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                connection.connect();
+            }
+        }).start();
 
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    connect.setText("Disconnect");
-                }
-            });
-            connectionFlag = true;
-
-        } catch (IOException e) {
-            Log.d("connectToServer", "Unable to connect");
-            connectionFlag = false;
-        }
     }
 
     @Override
     public void onClick(View v) {
 
-        Toast.makeText(this,"Something clicked", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "Something clicked", Toast.LENGTH_LONG).show();
 
-        if(v.getId() != R.id.connect && connectionFlag == false){
-            Toast.makeText(this,"Please connect to server first", Toast.LENGTH_LONG).show();
-            return;
-        }
-        if(v.getId() == R.id.connect) {
-            if (connectionFlag == false) {
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        connectToServer();
-                    }
-                }).start();
+        if (v.getId() == R.id.connect) {
+            connectToServer();
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
-
-            else{
-                try {
-                    outputStream.write(5);
-                    outputStream.close();
-                    socket.close();
-                    connectionFlag = false;
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            connect.setText("Connect");
-                        }
-                    });
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
+            if( connection.isConnected()){
+                Intent intent = new Intent(this, Tracker.class);
+                startActivity(intent);
             }
         }
-
-
+      /*
         else if(v.getId() == R.id.up){
 
             new Thread(new Runnable() {
@@ -177,7 +150,8 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                 }
             }).start();
         }
-    }
+        */
+}
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
