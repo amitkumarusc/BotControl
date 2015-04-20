@@ -2,9 +2,41 @@ import socket
 import threading
 import random
 import time
+"""import Adafruit_BBIO.GPIO as GPIO
+
+def initialiseRobot():
+	GPIO.setup(upPin1,GPIO.OUT)
+	GPIO.setup(upPin2,GPIO.OUT)
+	GPIO.setup(downPin1,GPIO.OUT)
+	GPIO.setup(downPin2,GPIO.OUT)
+	GPIO.setup(leftPin1,GPIO.OUT)
+	GPIO.setup(leftPin2,GPIO.OUT)
+	GPIO.setup(rightPin1,GPIO.OUT)
+	GPIO.setup(rightPin2,GPIO.OUT)
+
+def moveUp():
+	global upPin1,upPin2
+	GPIO.output(upPin1,GPIO.HIGH)
+	GPIO.output(upPin2,GPIO.LOW)
+
+def moveDown():
+	global downPin1,downPin2
+	GPIO.output(downPin1,GPIO.HIGH)
+	GPIO.output(downPin2,GPIO.LOW)
+
+def moveLeft():
+	global leftPin1,leftPin2
+	GPIO.output(leftPin1,GPIO.HIGH)
+	GPIO.output(leftPin2,GPIO.LOW)
+
+def moveRight():
+	global rightPin1,rightPin2
+	GPIO.output(rightPin1,GPIO.HIGH)
+	GPIO.output(rightPin2,GPIO.LOW)"""
+
 
 def handleConnection(clientSocket):
-	direction = ['sim','up','down','left','right']
+	direction = ['sim','up','down','left','right','stop']
 	data = ""
 	print "Socket name: ",clientSocket.getsockname()
 	try:
@@ -40,5 +72,5 @@ def startServer(ip,port):
 
 
 if __name__ == "__main__":
-
-	startServer("",4443)
+	#initialiseRobot()
+	startServer("",4445)
