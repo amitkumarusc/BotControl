@@ -1,5 +1,6 @@
 package com.deathadder.viper.clientapp;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Point;
 import android.support.v7.app.ActionBarActivity;
@@ -23,6 +24,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     Button connect;
     TextView ip, port;
     static Connection connection;
+    private ProgressDialog progress;
     int array[];
 
     @Override
@@ -31,7 +33,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         connect = (Button) findViewById(R.id.connect);
-
+        progress = new ProgressDialog(this);
         /*
         Button up = (Button) findViewById(R.id.up);
         Button down = (Button) findViewById(R.id.down);
@@ -55,7 +57,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 
     public void connectToServer() {
         int portNumber = 0;
-        String address = ip.getText().toString();
+        final String address = ip.getText().toString();
         try {
             portNumber = Integer.parseInt(port.getText().toString());
         } catch (NumberFormatException e) {
@@ -69,10 +71,13 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         if(connection == null)
             connection = new Connection(address, portNumber);
 
+
+
+        final int finalPortNumber = portNumber;
         new Thread(new Runnable() {
             @Override
             public void run() {
-                connection.connect();
+                connection.connect(address, finalPortNumber);
             }
         }).start();
 
@@ -83,13 +88,24 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 
         Toast.makeText(this, "Something clicked", Toast.LENGTH_LONG).show();
 
+
+
         if (v.getId() == R.id.connect) {
             connectToServer();
-            try {
-                Thread.sleep(5000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+
+            progress.setMessage("Connecting to Bot :) ");
+            progress.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            progress.setIndeterminate(true);
+            progress.show();
+
+            int completed = 0;
+            while(connection.isConnected() != true){
+                progress.setProgress(completed);
+                completed += 10;
+                if(completed > 100)
+                    completed = 100;
             }
+
             if( connection.isConnected()){
                 Intent intent = new Intent(this, Tracker.class);
                 startActivity(intent);

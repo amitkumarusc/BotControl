@@ -87,7 +87,7 @@ public class Tracker extends ActionBarActivity {
                     else
                         canvas.drawCircle(event.getX(), event.getY(), 50, paint);
                     surfaceHolder.unlockCanvasAndPost(canvas);
-                    Log.d("AMIT"," Motion detected X:" + event.getX() + " Y:" + event.getY());
+                    //Log.d("AMIT"," Motion detected X:" + event.getX() + " Y:" + event.getY());
                     return true;
                 }
 
@@ -104,7 +104,7 @@ public class Tracker extends ActionBarActivity {
                     canvas.drawCircle( display.getWidth()/2, display.getHeight()/2, 50, paint);
                     surfaceHolder.unlockCanvasAndPost(canvas);
                     MainActivity.connection.stop();
-                    Log.d("AMIT"," Motiooooon detected X:" + display.getHeight()/2 + " Y:" + display.getWidth()/2);
+                    //Log.d("AMIT"," Motiooooon detected X:" + display.getHeight()/2 + " Y:" + display.getWidth()/2);
                     return true;
                 }
             }
