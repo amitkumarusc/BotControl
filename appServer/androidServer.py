@@ -3,6 +3,12 @@ import threading
 import random
 import time
 import Adafruit_BBIO.GPIO as GPIO
+import sys
+
+try:
+	port = int(sys.argv[1])
+except:
+	port = 4444
 
 leftPin1 = "P8_10"
 leftPin2 = "P8_11"
@@ -24,6 +30,7 @@ def moveUp():
 	
 	GPIO.output(leftPin1,GPIO.HIGH)
 	GPIO.output(rightPin1,GPIO.HIGH)
+	print "Moving UP"
 
 def moveDown():
 	global leftPin1,leftPin2,rightPin1,rightPin2
@@ -33,6 +40,7 @@ def moveDown():
 
 	GPIO.output(leftPin2,GPIO.HIGH)
 	GPIO.output(rightPin2,GPIO.HIGH)
+	print "Moving DOWN"
 
 def stop():
 	global leftPin1,leftPin2,rightPin1,rightPin2
@@ -42,16 +50,27 @@ def stop():
 
 	GPIO.output(leftPin2,GPIO.LOW)
 	GPIO.output(rightPin2,GPIO.LOW)
-
-"""def moveLeft():
-	global leftPin1,leftPin2
-	GPIO.output(leftPin1,GPIO.HIGH)
-	GPIO.output(leftPin2,GPIO.LOW)
+	print "********* ON HALT*********"
 
 def moveRight():
-	global rightPin1,rightPin2
+	global leftPin1,leftPin2,rightPin1,rightPin2
+
+	GPIO.output(leftPin1,GPIO.LOW)
+	GPIO.output(leftPin2,GPIO.LOW)
+	GPIO.output(rightPin2,GPIO.LOW)
+	
 	GPIO.output(rightPin1,GPIO.HIGH)
-	GPIO.output(rightPin2,GPIO.LOW)"""
+	print "Moving LEFT"
+
+def moveLeft():
+	global leftPin1,leftPin2,rightPin1,rightPin2
+
+	GPIO.output(rightPin1,GPIO.LOW)
+	GPIO.output(rightPin2,GPIO.LOW)
+	GPIO.output(leftPin2,GPIO.LOW)
+	
+	GPIO.output(leftPin1,GPIO.HIGH)
+	print "Moving RIGHT"
 
 
 def handleConnection(clientSocket):
@@ -69,6 +88,10 @@ def handleConnection(clientSocket):
 				moveUp()
 			elif data == 2:
 				moveDown()
+			elif data == 3:
+				moveLeft()
+			elif data == 4:
+				moveRight()
 			else:
 				pass
 
@@ -101,5 +124,5 @@ def startServer(ip,port):
 
 
 if __name__ == "__main__":
-	#initialiseRobot()
-	startServer("",4445)
+	initialiseRobot()
+	startServer("",port)
