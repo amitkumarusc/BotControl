@@ -32,6 +32,12 @@ public class Tracker extends ActionBarActivity {
     }
 
     @Override
+    public void onBackPressed() {
+        Connection.setConnected(false);
+        finish();
+    }
+
+    @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (event.getAction() != MotionEvent.ACTION_DOWN &&
                 event.getAction() != MotionEvent.ACTION_UP &&

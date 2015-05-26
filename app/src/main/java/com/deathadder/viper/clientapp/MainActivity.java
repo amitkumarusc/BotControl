@@ -107,6 +107,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
             }
 
             if( connection.isConnected()){
+                progress.dismiss();
                 Intent intent = new Intent(this, Tracker.class);
                 startActivity(intent);
             }

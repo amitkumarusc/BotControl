@@ -2,29 +2,48 @@ import socket
 import threading
 import random
 import time
-"""import Adafruit_BBIO.GPIO as GPIO
+import Adafruit_BBIO.GPIO as GPIO
+
+leftPin1 = "P8_10"
+leftPin2 = "P8_11"
+
+rightPin1 = "P8_12"
+rightPin2 = "P8_13"
 
 def initialiseRobot():
-	GPIO.setup(upPin1,GPIO.OUT)
-	GPIO.setup(upPin2,GPIO.OUT)
-	GPIO.setup(downPin1,GPIO.OUT)
-	GPIO.setup(downPin2,GPIO.OUT)
 	GPIO.setup(leftPin1,GPIO.OUT)
 	GPIO.setup(leftPin2,GPIO.OUT)
 	GPIO.setup(rightPin1,GPIO.OUT)
 	GPIO.setup(rightPin2,GPIO.OUT)
 
 def moveUp():
-	global upPin1,upPin2
-	GPIO.output(upPin1,GPIO.HIGH)
-	GPIO.output(upPin2,GPIO.LOW)
+	global leftPin1,leftPin2,rightPin1,rightPin2
+
+	GPIO.output(leftPin2,GPIO.LOW)
+	GPIO.output(rightPin2,GPIO.LOW)
+	
+	GPIO.output(leftPin1,GPIO.HIGH)
+	GPIO.output(rightPin1,GPIO.HIGH)
 
 def moveDown():
-	global downPin1,downPin2
-	GPIO.output(downPin1,GPIO.HIGH)
-	GPIO.output(downPin2,GPIO.LOW)
+	global leftPin1,leftPin2,rightPin1,rightPin2
 
-def moveLeft():
+	GPIO.output(leftPin1,GPIO.LOW)
+	GPIO.output(rightPin1,GPIO.LOW)
+
+	GPIO.output(leftPin2,GPIO.HIGH)
+	GPIO.output(rightPin2,GPIO.HIGH)
+
+def stop():
+	global leftPin1,leftPin2,rightPin1,rightPin2
+
+	GPIO.output(leftPin1,GPIO.LOW)
+	GPIO.output(rightPin1,GPIO.LOW)
+
+	GPIO.output(leftPin2,GPIO.LOW)
+	GPIO.output(rightPin2,GPIO.LOW)
+
+"""def moveLeft():
 	global leftPin1,leftPin2
 	GPIO.output(leftPin1,GPIO.HIGH)
 	GPIO.output(leftPin2,GPIO.LOW)
@@ -43,6 +62,16 @@ def handleConnection(clientSocket):
 		while True:
 			data = clientSocket.recv(2).decode()
 			data = int(ord(data))
+
+			if data == 5:
+				stop()
+			elif data == 1:
+				moveUp()
+			elif data == 2:
+				moveDown()
+			else:
+				pass
+
 			print direction[data]
 			if not data:
 				print "Break"

@@ -347,7 +347,7 @@ int id action_menu_presenter 0x7f080003
 int id action_mode_bar 0x7f08002e
 int id action_mode_bar_stub 0x7f08002d
 int id action_mode_close_button 0x7f080020
-int id action_settings 0x7f080045
+int id action_settings 0x7f080042
 int id activity_chooser_view_content 0x7f080021
 int id always 0x7f080016
 int id beginning 0x7f080013
@@ -358,7 +358,6 @@ int id decor_content_parent 0x7f08002f
 int id default_activity_button 0x7f080024
 int id dialog 0x7f08001b
 int id disableHome 0x7f08000c
-int id down 0x7f080044
 int id dropdown 0x7f08001c
 int id edit_query 0x7f080033
 int id end 0x7f080014
@@ -370,7 +369,6 @@ int id icon 0x7f080026
 int id ifRoom 0x7f080018
 int id image 0x7f080023
 int id ip 0x7f08003f
-int id left 0x7f080042
 int id listMode 0x7f080009
 int id list_item 0x7f080025
 int id middle 0x7f080015
@@ -381,7 +379,6 @@ int id port 0x7f080040
 int id progress_circular 0x7f080005
 int id progress_horizontal 0x7f080006
 int id radio 0x7f08002b
-int id right 0x7f080043
 int id search_badge 0x7f080035
 int id search_bar 0x7f080034
 int id search_button 0x7f080036

@@ -12,9 +12,9 @@ import java.util.Queue;
  * Created by viper on 19/4/15.
  */
 public class Connection {
-    private boolean connectionFlag = false;
-    private Socket socket;
-    OutputStream outputStream;
+    private static boolean connectionFlag = false;
+    private static Socket socket;
+    static OutputStream outputStream;
     String address;
     int port;
     private LinkedList queue;
@@ -106,8 +106,18 @@ public class Connection {
         return connectionFlag;
     }
 
+    public static void setConnected(boolean value){
+        connectionFlag = value;
+        try {
+            outputStream.close();
+            socket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
     public void send(){
-        while(true){
+        while(connectionFlag){
             try{
                 synchronized (queue){
                     while(queue.isEmpty()) {
